@@ -110,12 +110,12 @@
                  lsp-snippet--str))
         (iter-yield res)))))
 
-;;;###autoload
 (defun lsp-snippet--parse (str)
   ;; TODO Docs
   ;; Bind transform functions
-  (let ((parser (lsp-snippet--parse-generator str))
-        (elements (list)))
+  (let* ((lsp-snippet--str str)
+         (parser (lsp-snippet--parse-generator str))
+         (elements (list)))
     ;; Roll out snippet
     (iter-do (element parser)
       (setq elements (nconc elements (list element))))
