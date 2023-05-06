@@ -72,8 +72,6 @@
           (iter-yield `(other ,start-idx ,idx))))))
     (iter-yield `(eof ,idx ,idx))))
 
-
-;;;###autoload
 (defvar lsp-snippet--str nil)
 (defvar lsp-snippet--curr nil)
 
@@ -96,17 +94,6 @@
       (lambda (resolved fallback)
         `((variable ,resolved ,fallback))))
 
-(defun lsp-snippet--parse (str)
-  ;; TODO Docs
-  ;; Bind transform functions
-  (let ((parser (lsp-snippet--parse-generator str))
-        (elements (list)))
-    ;; Roll out snippet
-    (iter-do (element parser)
-      (setq elements (nconc elements (list element))))
-    (funcall lsp-snippet--concat-fn
-             elements)))
-
 (iter-defun lsp-snippet--parse-generator (str)
   (let* ((scanner (lsp-snippet-scanner--scan str))
          (tokens (list))
@@ -122,6 +109,18 @@
           (error "Possible malformed snippet %S"
                  lsp-snippet--str))
         (iter-yield res)))))
+
+;;;###autoload
+(defun lsp-snippet--parse (str)
+  ;; TODO Docs
+  ;; Bind transform functions
+  (let ((parser (lsp-snippet--parse-generator str))
+        (elements (list)))
+    ;; Roll out snippet
+    (iter-do (element parser)
+      (setq elements (nconc elements (list element))))
+    (funcall lsp-snippet--concat-fn
+             elements)))
 
 (defun lsp-snippet--take (types)
   (if (null (lsp-snippet--curr-type))
