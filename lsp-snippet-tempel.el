@@ -65,3 +65,5 @@
   (advice-add 'lsp--expand-snippet :override #'lsp-snippet-tempel--expand-snippet)
   ;; HACK `lsp-mode' enables snippet based on `(feature 'yasnippet)'
   (provide 'yasnippet))
+
+(provide 'lsp-snippet-tempel)
