@@ -1,4 +1,4 @@
-;;; lsp-snippet.el -- parse lsp-snippets -*- lexical-binding: t -*-
+;;; lsp-snippet.el --- parse lsp-snippets -*- lexical-binding: t -*-
 ;;; Commentary:
 
 ;;; Parsing of lsp-snippets
@@ -180,29 +180,29 @@
     (funcall lsp-snippet--text-fn text)))
 
 (defun lsp-snippet--tabstop ()
-  (when-let* ((_ (lsp-snippet--take '(dollar)))
+  (when-let* ((dollar (lsp-snippet--take '(dollar)))
               (curly (or (lsp-snippet--take '(curly-open)) 'skip))
               (number (lsp-snippet--take '(number)))
-              (_ (or (eq curly 'skip) (lsp-snippet--take '(curly-close)))))
+              (curly-end (or (eq curly 'skip) (lsp-snippet--take '(curly-close)))))
     (funcall lsp-snippet--tabstop-fn
              (string-to-number number))))
 
 (defun lsp-snippet--placeholder ()
-  (when-let* ((_ (lsp-snippet--take '(dollar)))
-              (_ (lsp-snippet--take '(curly-open)))
+  (when-let* ((dollar (lsp-snippet--take '(dollar)))
+              (curly-open (lsp-snippet--take '(curly-open)))
               (number (lsp-snippet--take '(number)))
-              (_ (lsp-snippet--take '(colon)))
+              (colon (lsp-snippet--take '(colon)))
               (placeholder (lsp-snippet--any '(dollar curly-close)))
-              (_ (lsp-snippet--take '(curly-close))))
+              (curly-close (lsp-snippet--take '(curly-close))))
     (funcall lsp-snippet--placeholder-fn
              (string-to-number number)
              (car placeholder))))
 
 (defun lsp-snippet--choice ()
-  (when-let* ((_ (lsp-snippet--take '(dollar)))
-              (_ (lsp-snippet--take '(curly-open)))
+  (when-let* ((dollar (lsp-snippet--take '(dollar)))
+              (curly-open (lsp-snippet--take '(curly-open)))
               (number (lsp-snippet--take '(number)))
-              (_ (lsp-snippet--take '(pipe))))
+              (pipe (lsp-snippet--take '(pipe))))
     (let ((choices (list))
           start)
       ;; Collect alternatives
@@ -256,12 +256,12 @@
     ("UUID" nil)))
 
 (defun lsp-snippet--variable-any ()
-  (when-let* ((_ (lsp-snippet--take '(dollar)))
-              (_ (lsp-snippet--take '(curly-open)))
+  (when-let* ((dollar (lsp-snippet--take '(dollar)))
+              (curly-open (lsp-snippet--take '(curly-open)))
               (var (lsp-snippet--take '(var)))
-              (_ (lsp-snippet--take '(colon)))
+              (colon (lsp-snippet--take '(colon)))
               (any (lsp-snippet--any '(dollar curly-close)))
-              (_ (lsp-snippet--take '(curly-close))))
+              (curly-close (lsp-snippet--take '(curly-close))))
     (funcall lsp-snippet--variable-fn
              (lsp-snippet--resolve-variable var)
              (car any))))
@@ -277,18 +277,18 @@
                  var)))))
 
 (defun lsp-snippet--variable-regex ()
-  (when-let* ((_ (lsp-snippet--take '(dollar)))
-              (_ (lsp-snippet--take '(curly-open)))
+  (when-let* ((dollar (lsp-snippet--take '(dollar)))
+              (curly-open (lsp-snippet--take '(curly-open)))
               (var (lsp-snippet--take '(var)))
-              (_ (lsp-snippet--take '(forwardslash)))
+              (forwardslash (lsp-snippet--take '(forwardslash)))
               ;; Eat the two ?/
-              (_ (lsp-snippet--escaped-string-to '(forwardslash)))
-              (_ (lsp-snippet--take '(forwardslash)))
-              (_ (lsp-snippet--escaped-string-to '(forwardslash)))
-              (_ (lsp-snippet--take '(forwardslash)))
+              (until-forwardslash (lsp-snippet--escaped-string-to '(forwardslash)))
+              (forwardslash (lsp-snippet--take '(forwardslash)))
+              (until-forwardslash (lsp-snippet--escaped-string-to '(forwardslash)))
+              (forwardslash (lsp-snippet--take '(forwardslash)))
               ;; Eat the closing ?}
-              (_ (or (lsp-snippet--escaped-string-to '(curly-close)) t))
-              (_ (lsp-snippet--take '(curly-close))))
+              (until-curly-close (or (lsp-snippet--escaped-string-to '(curly-close)) t))
+              (curly-close (lsp-snippet--take '(curly-close))))
     (funcall lsp-snippet--variable-fn
              nil
              (or (lsp-snippet--resolve-variable var) var))))

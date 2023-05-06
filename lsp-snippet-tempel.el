@@ -1,4 +1,4 @@
-;;; lsp-snippet-tempel.el -- convert lsp snippets to tempel snippets -*- lexical-binding: t -*-
+;;; lsp-snippet-tempel.el --- convert lsp snippets to tempel snippets -*- lexical-binding: t -*-
 ;;; Commentary:
 
 ;;; Shoving in tempel snippet support into `lsp-mode' in the worst way possible
