@@ -94,8 +94,9 @@
       (lambda (resolved fallback)
         `((variable ,resolved ,fallback))))
 
-(iter-defun lsp-snippet--parse-generator (str scanner)
+(defun lsp-snippet--parse (str tokens)
   (let* ((tokens (list))
+         (elements (list))
          (lsp-snippet--str str)
          lsp-snippet--curr)
     ;; Roll out tokens
@@ -107,7 +108,8 @@
         (unless res
           (error "Possible malformed snippet %S"
                  lsp-snippet--str))
-        (iter-yield res)))))
+        (setq elements (nconc elements (list res)))))
+    elements))
 
 (defun lsp-snippet--take (types)
   (if (null (lsp-snippet--curr-type))
@@ -290,11 +292,7 @@
   ;; TODO Docs
   ;; Bind transform functions
   (let* ((scanner (lsp-snippet-scanner--scan str))
-         (parser (lsp-snippet--parse-generator str scanner))
-         (elements (list)))
-    ;; Roll out snippet
-    (iter-do (element parser)
-      (setq elements (nconc elements (list element))))
+         (elements (lsp-snippet--parse str scanner)))
     (funcall lsp-snippet--concat-fn
              elements)))
 
