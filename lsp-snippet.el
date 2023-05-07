@@ -94,7 +94,7 @@
       (lambda (resolved fallback)
         `((variable ,resolved ,fallback))))
 
-(defun lsp-snippet--parse (str tokens)
+(defun lsp-snippet--parse (str scanner)
   (let* ((tokens (list))
          (elements (list))
          (lsp-snippet--str str)
