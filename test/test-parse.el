@@ -92,63 +92,63 @@
 
 (ert-deftest parser-text-test ()
   (should
-   (equal (lsp-snippet--parse " test")
+   (equal (lsp-snippet-parse " test")
           '((text " test"))))
   (should
-   (equal (lsp-snippet--parse " test\\$ test")
+   (equal (lsp-snippet-parse " test\\$ test")
           '((text " test\\$ test")))))
 
 (ert-deftest parser-tabstop-test ()
   (should
-   (equal (lsp-snippet--parse "$0")
+   (equal (lsp-snippet-parse "$0")
           '((tabstop 0))))
   (should
-   (equal (lsp-snippet--parse "${0}")
+   (equal (lsp-snippet-parse "${0}")
           '((tabstop 0))))
   (should
-   (equal (lsp-snippet--parse "$1test")
+   (equal (lsp-snippet-parse "$1test")
           '((tabstop 1) (text "test"))))
   (should
-   (equal (lsp-snippet--parse "${1}test")
+   (equal (lsp-snippet-parse "${1}test")
           '((tabstop 1) (text "test")))))
 
 (ert-deftest parser-placeholder-test ()
   (should
-   (equal (lsp-snippet--parse "${1:test\\}}")
+   (equal (lsp-snippet-parse "${1:test\\}}")
           '((placeholder 1 (text "test\\}")))))
   (should
-   (equal (lsp-snippet--parse "${0:${1:${1:test}}}")
+   (equal (lsp-snippet-parse "${0:${1:${1:test}}}")
           '((placeholder 0 (placeholder 1 (placeholder 1 (text "test"))))))))
 
 (ert-deftest parser-choice-test ()
   (should
-   (equal (lsp-snippet--parse "${1||}")
+   (equal (lsp-snippet-parse "${1||}")
           '((choice 1 ()))))
   (should
-   (equal (lsp-snippet--parse "${1|test|}")
+   (equal (lsp-snippet-parse "${1|test|}")
           '((choice 1 ("test")))))
   (should
-   (equal (lsp-snippet--parse "${1|test1,test2|}")
+   (equal (lsp-snippet-parse "${1|test1,test2|}")
           '((choice 1 ("test1" "test2")))))
   (should
-   (equal (lsp-snippet--parse "${1|test1,test2,test3|}")
+   (equal (lsp-snippet-parse "${1|test1,test2,test3|}")
           '((choice 1 ("test1" "test2" "test3")))))
   (should
-   (equal (lsp-snippet--parse "${1|test1,\\|test2,\\,test3|}")
+   (equal (lsp-snippet-parse "${1|test1,\\|test2,\\,test3|}")
           '((choice 1 ("test1" "\\|test2" "\\,test3"))))))
 
 (ert-deftest parser-variable-simple-test ()
   (should
-   (equal (lsp-snippet--parse "$test")
+   (equal (lsp-snippet-parse "$test")
           '((variable nil "test"))))
   (should
-   (equal (lsp-snippet--parse "${test}")
+   (equal (lsp-snippet-parse "${test}")
           '((variable nil "test"))))
   (should
-   (equal (lsp-snippet--parse "${test:test2}")
+   (equal (lsp-snippet-parse "${test:test2}")
           '((variable nil (text "test2")))))
   (should
-   (equal (lsp-snippet--parse "${test:${test:${test}}}")
+   (equal (lsp-snippet-parse "${test:${test:${test}}}")
           '((variable nil (variable nil (variable nil "test")))))))
 
 (ert-deftest parser-variable-resolver-test ()
@@ -227,5 +227,5 @@
   (with-temp-buffer
     (setq-local buffer-file-name "/test/file.el")
     (should
-     (equal (lsp-snippet--parse "${TM_FILENAME/(.*)\..+$/$1/}")
+     (equal (lsp-snippet-parse "${TM_FILENAME/(.*)\..+$/$1/}")
             '((variable nil "file.el"))))))

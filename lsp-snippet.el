@@ -94,9 +94,8 @@
       (lambda (resolved fallback)
         `((variable ,resolved ,fallback))))
 
-(iter-defun lsp-snippet--parse-generator (str)
-  (let* ((scanner (lsp-snippet-scanner--scan str))
-         (tokens (list))
+(iter-defun lsp-snippet--parse-generator (str scanner)
+  (let* ((tokens (list))
          (lsp-snippet--str str)
          lsp-snippet--curr)
     ;; Roll out tokens
@@ -109,18 +108,6 @@
           (error "Possible malformed snippet %S"
                  lsp-snippet--str))
         (iter-yield res)))))
-
-(defun lsp-snippet--parse (str)
-  ;; TODO Docs
-  ;; Bind transform functions
-  (let* ((lsp-snippet--str str)
-         (parser (lsp-snippet--parse-generator str))
-         (elements (list)))
-    ;; Roll out snippet
-    (iter-do (element parser)
-      (setq elements (nconc elements (list element))))
-    (funcall lsp-snippet--concat-fn
-             elements)))
 
 (defun lsp-snippet--take (types)
   (if (null (lsp-snippet--curr-type))
@@ -297,5 +284,18 @@
   (or (lsp-snippet--revert-state-on-nil #'lsp-snippet--variable-simple)
       (lsp-snippet--revert-state-on-nil #'lsp-snippet--variable-any)
       (lsp-snippet--revert-state-on-nil #'lsp-snippet--variable-regex)))
+
+;;;###autoload
+(defun lsp-snippet-parse (str)
+  ;; TODO Docs
+  ;; Bind transform functions
+  (let* ((scanner (lsp-snippet-scanner--scan str))
+         (parser (lsp-snippet--parse-generator str scanner))
+         (elements (list)))
+    ;; Roll out snippet
+    (iter-do (element parser)
+      (setq elements (nconc elements (list element))))
+    (funcall lsp-snippet--concat-fn
+             elements)))
 
 (provide 'lsp-snippet)

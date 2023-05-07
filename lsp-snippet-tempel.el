@@ -31,7 +31,7 @@
 (defun lsp-snippet-tempel--expand-snippet (_snippet &optional start end _expand-env)
   (let* ((inhibit-field-text-motion t)
          (snippet (buffer-substring-no-properties start end))
-         (template (lsp-snippet--parse snippet)))
+         (template (lsp-snippet-parse snippet)))
     (when template
       (delete-region start end)
       (tempel--insert template (cons start end)))))
