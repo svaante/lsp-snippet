@@ -11,7 +11,7 @@ All variables found in spec are supported but not all the undocumented ones foun
 
 Note: This package is still a work in progress.
 
-# Setup with straight
+* Setup with straight
 #+begin_src emacs-lisp
   (use-package lsp-snippet-tempel
     :straight (lsp-snippet-tempel :type git
@@ -27,15 +27,15 @@ Note: This package is still a work in progress.
 
 #+end_src
 
-# Supported frameworks
+* Supported frameworks
 + [X] [[https://github.com/minad/tempel][Tempel]] - ~lsp-mode~
 + [X] [[https://github.com/minad/tempel][Tempel]] - ~eglot~
 + [ ] [[https://github.com/joaotavora/yasnippet][YASnippet]] - ~lsp-mode~
 + [ ] [[https://github.com/joaotavora/yasnippet][YASnippet]] - ~eglot~
 
-# Related projects
+* Related projects
 - [[https://github.com/fejfighter/eglot-tempel][eglot-tempel]]
 
-# Links
+* Links
 - [[https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#snippet_syntax][LSP snippet specification]]
 - [[https://github.com/microsoft/vscode/blob/1498d0f34053f854e75e1364adaca6f99e43de08/src/vs/editor/contrib/snippet/browser/snippetVariables.ts][vscode lsp-snippet variables]]
