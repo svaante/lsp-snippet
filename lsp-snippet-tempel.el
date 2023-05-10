@@ -13,7 +13,7 @@
 
 (defun lsp-snippet-tempel--text-fn (text)
   (cdr (mapcan (lambda (part)
-                 (list 'n> part))
+                 (list 'n part '>))
                (split-string text "\n"))))
 
 (defun lsp-snippet-tempel--tabstop-fn (number)
