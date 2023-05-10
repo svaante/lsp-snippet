@@ -1,4 +1,4 @@
-#+title: lsp-snippet - LSP snippet parser with batteries
+#+title: lsp-snippet - Templating agnostic LSP snippets
 #+author: Daniel Pettersson
 #+language: en
 This package aims to parse lsp-snippet as close to spec.
