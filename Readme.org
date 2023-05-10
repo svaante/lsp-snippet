@@ -1,11 +1,13 @@
 #+title: lsp-snippet - LSP snippet parser with batteries
 #+author: Daniel Pettersson
 #+language: en
-This package aims to parse lsp-snippet as close to spec with tradeoffs.
+This package aims to parse lsp-snippet as close to spec.
 
 ~lsp-snippet~ aims to parse LSP snippet syntax to be able to use other completion frameworks other then ~YASnippet~ (which is currently the only one supported by ~eglot~ and ~YASnippet~) and to be able to use all of the features that the lsp snippet spec allows for.
 
 Currently "Variable Transforms" is not supported due to the dependency on Javascript regexp.
+
+All variables found in spec are supported but not all the undocumented ones found in vscodes implementation.
 
 Note: This package is still a work in progress.
 
@@ -31,10 +33,9 @@ Note: This package is still a work in progress.
 + [ ] [[https://github.com/joaotavora/yasnippet][YASnippet]] - ~lsp-mode~
 + [ ] [[https://github.com/joaotavora/yasnippet][YASnippet]] - ~eglot~
 
-
 # Related projects
 - [[https://github.com/fejfighter/eglot-tempel][eglot-tempel]]
 
 # Links
-- [[https://github.com/microsoft/vscode/blob/1498d0f34053f854e75e1364adaca6f99e43de08/src/vs/editor/contrib/snippet/browser/snippetVariables.ts][vscode lsp-snippet variables]]
 - [[https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#snippet_syntax][LSP snippet specification]]
+- [[https://github.com/microsoft/vscode/blob/1498d0f34053f854e75e1364adaca6f99e43de08/src/vs/editor/contrib/snippet/browser/snippetVariables.ts][vscode lsp-snippet variables]]
