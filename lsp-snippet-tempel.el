@@ -12,7 +12,9 @@
   (mapcan 'identity elements))
 
 (defun lsp-snippet-tempel--text-fn (text)
-  (list text))
+  (cdr (mapcan (lambda (part)
+                 (list 'n> part))
+               (split-string text "\n"))))
 
 (defun lsp-snippet-tempel--tabstop-fn (number)
   `(p . ,(when (eql number 0) (list 'q))))
