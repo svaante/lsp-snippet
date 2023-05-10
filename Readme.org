@@ -9,7 +9,7 @@ Currently "Variable Transforms" is not supported due to the dependency on Javasc
 
 All variables found in spec are supported but not all the undocumented ones found in vscodes implementation.
 
-Note: This package is still a work in progress.
+Note: This package is still a work in progress and ~lsp-mode~ integration requires providing ~YASnippet~ so if there is any other packages that relies on ~YASnippet~ strange things might happen.
 
 * Setup with straight
 #+begin_src emacs-lisp
