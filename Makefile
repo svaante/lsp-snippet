@@ -8,6 +8,7 @@ byte-compile:
 		--eval="(package-initialize)" \
 		--eval="(package-refresh-contents)" \
 		--eval="(package-install 'tempel)" \
+		--eval="(package-install 'yasnippet)" \
 		--eval="(setq byte-compile-error-on-warn t)" \
 		--eval="(batch-byte-compile)" \
 		./lsp-snippet*.el
@@ -31,8 +32,6 @@ test: autoloads
 	        --no-init-file \
 		--eval="(add-to-list 'load-path \"$(PWD)\")" \
 		--eval="(package-initialize)" \
-		--eval="(package-refresh-contents)" \
-		--eval="(package-install 'tempel)" \
 		--load lsp-snippet-autoloads.el \
 		--load test/test-tempel.el \
 		-f ert-run-tests-batch-and-exit

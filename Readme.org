@@ -31,7 +31,7 @@ Note: This package is still a work in progress and ~lsp-mode~ integration requir
 + [X] [[https://github.com/minad/tempel][Tempel]] - ~lsp-mode~
 + [X] [[https://github.com/minad/tempel][Tempel]] - ~eglot~
 + [ ] [[https://github.com/joaotavora/yasnippet][YASnippet]] - ~lsp-mode~
-+ [ ] [[https://github.com/joaotavora/yasnippet][YASnippet]] - ~eglot~
++ [X] [[https://github.com/joaotavora/yasnippet][YASnippet]] - ~eglot~
 
 * Related projects
 - [[https://github.com/fejfighter/eglot-tempel][eglot-tempel]]
