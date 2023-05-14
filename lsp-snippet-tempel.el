@@ -17,13 +17,14 @@
                (split-string text "\n"))))
 
 (defun lsp-snippet-tempel--tabstop-fn (number)
-  `(p . ,(when (eql number 0) (list 'q))))
-
-(defun lsp-snippet-tempel--placeholder-fn (number placeholder)
-  `((p ,placeholder) . ,(when (eql number 0) (list 'q))))
+  (lsp-snippet-tempel--placeholder-fn number ""))
 
 (defun lsp-snippet-tempel--choice-fn (number choices)
-  `((p ,(string-join choices ",")) . ,(when (eql number 0) (list 'q))))
+  (lsp-snippet-tempel--placeholder-fn number (string-join choices ",")))
+
+(defun lsp-snippet-tempel--placeholder-fn (number placeholder)
+  (let ((sym (intern (format "tabstop-%d" number))))
+  `((p ,placeholder ,sym) . ,(when (eql number 0) (list 'q)))))
 
 (defun lsp-snippet-tempel--variable-fn (resolved fallback)
   (if resolved

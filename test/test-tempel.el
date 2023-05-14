@@ -3,7 +3,7 @@
   (should
    (should
    (equal (lsp-snippet-parse "printf(${1:some_thing})$0")
-          '("printf(" > (p "some_thing") ")" > p q)))))
+          '("printf(" > (p "some_thing" tabstop-1) ")" > (p "" tabstop-0) q)))))
 
 (ert-deftest tempel-parsing-format-str-test ()
   (lsp-snippet-tempel-lsp-mode-init)
@@ -11,7 +11,11 @@
    (equal (lsp-snippet-parse "switch (${1:expression}) {
 $0
 }")
-          '("switch (" > (p "expression") ") {" > n "" > p q "" > n "}" >))))
+          '("switch (" >
+            (p "expression" tabstop-1)
+            ") {" > n "" >
+            (p "" tabstop-0)
+            q "" > n "}" >))))
 
 (ert-deftest lsp-mode-tempel-parsing-test ()
   (lsp-snippet-tempel-lsp-mode-init)
