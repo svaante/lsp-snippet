@@ -46,14 +46,6 @@
         (tempel--insert template (cons (or start (point))
                                        (or end (point))))))))
 
-(defvar lsp-snippet-tempel--allow-modification-guard nil)
-
-(defun lsp-snippet-tempel--allow-modification-hack (&rest app)
-  (unless (bound-and-true-p lsp-snippet-tempel--allow-modification-guard)
-    (let ((lsp-snippet-tempel--allow-modification-guard t)
-          (inhibit-modification-hooks nil))
-      (apply app))))
-
 (defun lsp-snippet-tempel--init ()
   (setq lsp-snippet--concat-fn #'lsp-snippet-tempel--concat-fn)
   (setq lsp-snippet--text-fn #'lsp-snippet-tempel--text-fn)
@@ -65,13 +57,6 @@
 ;;;###autoload
 (defun lsp-snippet-tempel-lsp-mode-init ()
   (lsp-snippet-tempel--init)
-  ;; HACK `tempel' removes the placeholder string as in `(p "placeholder")'
-  ;; inside a modification hook. As `inhibit-modification-hooks' is non-nil the
-  ;; changes won't propagate to `lsp-mode' and buffer contents and the lsp
-  ;; server will diverge. To circumvent this we need to add enable modification-hooks
-  ;; and guard against stack overflow as the current implementation of `tempel--field-modified'
-  ;; will trigger modification hooks.
-  (advice-add 'tempel--field-modified :around #'lsp-snippet-tempel--allow-modification-hack)
   (advice-add 'lsp--expand-snippet :override #'lsp-snippet-tempel--lsp-mode-expand-snippet)
   ;; HACK `lsp-mode' enables snippet based on `(feature 'yasnippet)'
   (provide 'yasnippet))
@@ -79,13 +64,6 @@
 ;;;###autoload
 (defun lsp-snippet-tempel-eglot-init ()
   (lsp-snippet-tempel--init)
-  ;; HACK `tempel' removes the placeholder string as in `(p "placeholder")'
-  ;; inside a modification hook. As `inhibit-modification-hooks' is non-nil the
-  ;; changes won't propagate to `lsp-mode' and buffer contents and the lsp
-  ;; server will diverge. To circumvent this we need to add enable modification-hooks
-  ;; and guard against stack overflow as the current implementation of `tempel--field-modified'
-  ;; will trigger modification hooks.
-  (advice-add 'tempel--field-modified :around #'lsp-snippet-tempel--allow-modification-hack)
   (advice-add 'eglot--snippet-expansion-fn :override #'lsp-snippet-tempel--eglot-expand-snippet))
 
 (provide 'lsp-snippet-tempel)
