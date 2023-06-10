@@ -1,3 +1,5 @@
+(package-initialize)
+
 (ert-deftest tempel-parsing-test ()
   (lsp-snippet-tempel-lsp-mode-init)
   (should

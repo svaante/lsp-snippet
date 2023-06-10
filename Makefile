@@ -20,18 +20,13 @@ autoloads: byte-compile
 		--eval='(setq make-backup-files nil)' \
 		--eval='(make-directory-autoloads default-directory "lsp-snippet-autoloads.el")'
 
-test: autoloads
+test-%: autoloads
 	EMACS_TEST_VERBOSE=t $(EMACS) \
 		-batch \
-	        --no-init-file \
-		--load lsp-snippet.elc \
-		--load test/test-parse.el \
-		-f ert-run-tests-batch-and-exit
-	EMACS_TEST_VERBOSE=t $(EMACS) \
-		-batch \
-	        --no-init-file \
+		--no-init-file \
 		--eval="(add-to-list 'load-path \"$(PWD)\")" \
-		--eval="(package-initialize)" \
 		--load lsp-snippet-autoloads.el \
-		--load test/test-tempel.el \
+		--load test/test-$*.el \
 		-f ert-run-tests-batch-and-exit
+
+test: test-parse test-tempel test-yasnippet
