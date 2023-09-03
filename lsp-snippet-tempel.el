@@ -17,7 +17,11 @@
                (split-string text "\n"))))
 
 (defun lsp-snippet-tempel--tabstop-fn (number)
-  (lsp-snippet-tempel--placeholder-fn number ""))
+  (cond
+   ((zerop number)
+    (list 'q))
+   (t
+    (lsp-snippet-tempel--placeholder-fn number ""))))
 
 (defun lsp-snippet-tempel--choice-fn (number choices)
   (lsp-snippet-tempel--placeholder-fn number (string-join choices ",")))
