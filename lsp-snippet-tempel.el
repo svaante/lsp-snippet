@@ -2,7 +2,7 @@
 ;;; Commentary:
 
 ;;; Shoving in tempel snippet support into `lsp-mode' in the worst way possible
-;;; Call `lsp-snippet-tempel-lsp-mode-init' to enable support globaly
+;;; Call `lsp-snippet-tempel-lsp-mode-init' to enable support globally
 
 ;;; Code:
 (require 'tempel)
