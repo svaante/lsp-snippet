@@ -12,8 +12,17 @@
   (mapcan 'identity elements))
 
 (defun lsp-snippet-tempel--text-fn (text)
+  ;; HACK This is a bit of a mess and will certainly not work
+  ;;      satisfactory for all situations.
   (cdr (mapcan (lambda (part)
-                 (list 'n (string-trim-left part) '>))
+                 (let ((wo-left-whitespace (string-trim-left part)))
+                   (cond
+                    ((not (string-empty-p wo-left-whitespace))
+                     (list 'n (string-trim-left part) '>))
+                    ((equal part " ")
+                     (list 'n " "))
+                    (t
+                     (list 'n '>)))))
                (split-string text "\n"))))
 
 (defun lsp-snippet-tempel--tabstop-fn (number)
