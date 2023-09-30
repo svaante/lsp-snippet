@@ -12,7 +12,6 @@
    (equal (lsp-snippet-parse "`printf(${1:\\$some_thing})$0")
            "\\`printf(${1:\\$some_thing})${0}")))
 
-
 (ert-deftest yasnippet-var ()
   (lsp-snippet-yasnippet-lsp-mode-init)
   (with-temp-buffer
@@ -26,7 +25,7 @@
   (with-temp-buffer
     (setq buffer-file-name "test.el")
     (should
-     (equal (lsp-snippet-parse "${2|right,center,left}")
+     (equal (lsp-snippet-parse "${2|right,center,left|}")
             "${2:$$(yas-choose-value '(\"right\" \"center\" \"left\"))}"))))
 
 (lsp-snippet-yasnippet-eglot-init)

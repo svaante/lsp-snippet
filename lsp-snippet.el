@@ -194,8 +194,8 @@
               (pipe (lsp-snippet--take '(pipe))))
     (let ((choices (list))
           start)
-      ;; Collect alternatives
-      (while (not (eq (lsp-snippet--curr-type) 'pipe))
+      ;; Collect choices
+      (while (not (memq (lsp-snippet--curr-type) '(pipe eof)))
         (setq start (lsp-snippet--index))
         (lsp-snippet--escaped-string-to '(comma pipe))
         (setq choices

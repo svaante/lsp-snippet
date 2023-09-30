@@ -124,6 +124,12 @@
   (should
    (equal (lsp-snippet-parse "${1||}")
           '((choice 1 ()))))
+  (should-error
+   (equal (lsp-snippet-parse "${1|}")
+          '((choice 1 ()))))
+  (should-error
+   (equal (lsp-snippet-parse "${1||")
+          '((choice 1 ()))))
   (should
    (equal (lsp-snippet-parse "${1|test|}")
           '((choice 1 ("test")))))
