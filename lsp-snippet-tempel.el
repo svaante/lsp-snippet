@@ -18,7 +18,7 @@
                  (let ((wo-left-whitespace (string-trim-left part)))
                    (cond
                     ((not (string-empty-p wo-left-whitespace))
-                     (list 'n (string-trim-left part) '>))
+                     (list 'n wo-left-whitespace '>))
                     ((equal part " ")
                      (list 'n " "))
                     (t
