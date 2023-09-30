@@ -181,7 +181,8 @@
               (curly-open (lsp-snippet--take '(curly-open)))
               (number (lsp-snippet--take '(number)))
               (colon (lsp-snippet--take '(colon)))
-              (placeholder (lsp-snippet--any '(dollar curly-close)))
+              (placeholder (or (lsp-snippet--any '(dollar curly-close))
+                               '("")))
               (curly-close (lsp-snippet--take '(curly-close))))
     (funcall lsp-snippet--placeholder-fn
              (string-to-number number)

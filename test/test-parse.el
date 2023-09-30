@@ -118,7 +118,10 @@
           '((placeholder 1 (text "test\\}")))))
   (should
    (equal (lsp-snippet-parse "${0:${1:${1:test}}}")
-          '((placeholder 0 (placeholder 1 (placeholder 1 (text "test"))))))))
+          '((placeholder 0 (placeholder 1 (placeholder 1 (text "test")))))))
+  (should
+   (equal (lsp-snippet-parse "${1:}")
+          '((placeholder 1 "")))))
 
 (ert-deftest parser-choice-test ()
   (should
