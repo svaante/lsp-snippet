@@ -18,10 +18,10 @@ Note: This package is still a work in progress and ~lsp-mode~ integration requir
                                   :host github
                                   :repo "svaante/lsp-snippet")
     :config
-    (when (feature 'lsp-mode)
+    (when (featurep 'lsp-mode)
       ;; Initialize lsp-snippet -> tempel in lsp-mode
       (lsp-snippet-tempel-lsp-mode-init))
-    (when (feature 'eglot)
+    (when (featurep 'eglot)
       ;; Initialize lsp-snippet -> tempel in eglot
       (lsp-snippet-tempel-eglot-init)))
 
