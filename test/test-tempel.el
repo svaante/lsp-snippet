@@ -13,7 +13,12 @@
    (equal (lsp-snippet-parse "switch (${1:expression}) {
 $0
 }")
-          '("switch (" > (p "expression" tabstop-1) ") {" > n > q > n "}" >))))
+          '("switch (" > (p "expression" tabstop-1) ") {" > n > q > n > "}" >)))
+  (should
+   (equal (lsp-snippet-parse "if let $1 = $2 {
+    $0
+}")
+          '("if let " > (p "" tabstop-1) " = " > (p "" tabstop-2) " {" > n > q > n > "}" >))))
 
 (ert-deftest lsp-mode-tempel-parsing-test ()
   (lsp-snippet-tempel-lsp-mode-init)

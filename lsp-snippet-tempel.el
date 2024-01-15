@@ -14,16 +14,20 @@
 (defun lsp-snippet-tempel--text-fn (text)
   ;; HACK This is a bit of a mess and will certainly not work
   ;;      satisfactory for all situations.
-  (cdr (mapcan (lambda (part)
-                 (let ((wo-left-whitespace (string-trim-left part)))
-                   (cond
-                    ((not (string-empty-p wo-left-whitespace))
-                     (list 'n wo-left-whitespace '>))
-                    ((equal part " ")
-                     (list 'n " "))
-                    (t
-                     (list 'n '>)))))
-               (split-string text "\n"))))
+  (let (after-newline-p )
+    (mapcan (lambda (line)
+              (let ((left-trim (string-trim-left line)))
+                (cond
+                 ((not after-newline-p)
+                  (setq after-newline-p t)
+                  (if (string-empty-p line)
+                      (list '>)
+                    (list line '>)))
+                 ((equal left-trim "")
+                  (list 'n '>))
+                 (t
+                  (list 'n '> left-trim '>)))))
+            (split-string text "\n"))))
 
 (defun lsp-snippet-tempel--tabstop-fn (number)
   (cond
@@ -36,8 +40,10 @@
   (lsp-snippet-tempel--placeholder-fn number (string-join choices ",")))
 
 (defun lsp-snippet-tempel--placeholder-fn (number placeholder)
-  (let ((sym (intern (format "tabstop-%d" number))))
-  `((p ,placeholder ,sym) . ,(when (eql number 0) (list 'q)))))
+  (if (zerop number)
+      (list 'q)
+    (let ((sym (intern (format "tabstop-%d" number))))
+      `((p ,placeholder ,sym)))))
 
 (defun lsp-snippet-tempel--variable-fn (resolved fallback)
   (if resolved

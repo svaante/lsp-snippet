@@ -42,7 +42,6 @@
    (format "${%s:%s}" number placeholder)))
 
 (defun lsp-snippet-yasnippet--variable-fn (resolved fallback)
-  (message "THIS %s %s" resolved fallback)
   (list
    (lsp-snippet-yasnippet--escape
     (or resolved fallback ""))))
