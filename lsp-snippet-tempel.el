@@ -14,7 +14,7 @@
 (defun lsp-snippet-tempel--text-fn (text)
   ;; HACK This is a bit of a mess and will certainly not work
   ;;      satisfactory for all situations.
-  (let (after-newline-p )
+  (let (after-newline-p)
     (mapcan (lambda (line)
               (let ((left-trim (string-trim-left line)))
                 (cond
@@ -58,6 +58,13 @@
       (delete-region start end)
       (tempel--insert template (cons start end)))))
 
+(defun lsp-snippet-tempel--lspce-expand-snippet ()
+  (lambda (snippet &optional expand-env)
+    (let* ((inhibit-field-text-motion t)
+           (template (lsp-snippet-parse snippet)))
+      (when template
+        (tempel--insert template (cons (point) (point)))))))
+
 (defun lsp-snippet-tempel--eglot-expand-snippet ()
   (lambda (snippet &optional start end)
     (let ((template (lsp-snippet-parse snippet)))
@@ -78,6 +85,13 @@
   (lsp-snippet-tempel--init)
   (advice-add 'lsp--expand-snippet :override #'lsp-snippet-tempel--lsp-mode-expand-snippet)
   ;; HACK `lsp-mode' enables snippet based on `(feature 'yasnippet)'
+  (provide 'yasnippet))
+
+;;;###autoload
+(defun lsp-snippet-tempel-lspce-init ()
+  (lsp-snippet-tempel--init)
+  (advice-add 'lspce--snippet-expansion-fn :override #'lsp-snippet-tempel--lspce-expand-snippet)
+  ;; HACK `lspce' enables snippet based on `(feature 'yasnippet)'
   (provide 'yasnippet))
 
 ;;;###autoload
