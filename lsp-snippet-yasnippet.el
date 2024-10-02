@@ -71,7 +71,10 @@
 ;;;###autoload
 (defun lsp-snippet-yasnippet-lsp-mode-init ()
   (lsp-snippet-yasnippet--init)
-  (advice-add 'lsp--expand-snippet :override #'lsp-snippet-yasnippet--lsp-mode-expand-snippet))
+  ;; HACK `lsp-mode' enables snippet based on (fboundp 'yas-minor-mode)
+  (unless (fboundp 'yas-minor-mode)
+    (defun yas-minor-mode (&rest _)
+      (error "Stub created by `lsp-snippet-tempel-lsp-mode-init'"))))
 
 ;;;###autoload
 (defun lsp-snippet-yasnippet-eglot-init ()
