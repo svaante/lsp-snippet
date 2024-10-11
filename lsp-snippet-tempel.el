@@ -1,8 +1,37 @@
-;;; lsp-snippet-tempel.el --- convert lsp snippets to tempel snippets -*- lexical-binding: t -*-
+;;; lsp-snippet-tempel.el --- Use tempel as your LSP snippet enging -*- lexical-binding: t -*-
+;; Copyright (C) 2024  Free Software Foundation, Inc.
+
+;; Author: Daniel Pettersson
+;; Maintainer: Daniel Pettersson <daniel@dpettersson.net>
+;; Created: 2023
+;; License: GPL-3.0-or-later
+;; Version: 0.0.1
+;; Homepage: https://github.com/svaante/lsp-snippet
+;; Package-Requires: ((emacs "28.1") (lsp-snippet "0.0.1"))
+
+;; This file is not part of GNU Emacs.
+
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 ;;; Commentary:
 
-;;; Shoving in tempel snippet support into `lsp-mode' in the worst way possible
-;;; Call `lsp-snippet-tempel-lsp-mode-init' to enable support globally
+;; Parse LSP snippets to `tempel' snippets and provide integration
+;; with your chosen LSP package.
+
+;; `eglot'    - `lsp-snippet-tempel-eglot-init'
+;; `lsp-mode' - `lsp-snippet-tempel-lsp-mode-init'
+;; `lspce'    - `lsp-snippet-tempel-lspce-init'
 
 ;;; Code:
 (require 'tempel)
@@ -82,6 +111,7 @@
 
 ;;;###autoload
 (defun lsp-snippet-tempel-lsp-mode-init ()
+  "Use `tempel' as `lsp-mode's snippet engine."
   (lsp-snippet-tempel--init)
   (advice-add 'lsp--expand-snippet :override #'lsp-snippet-tempel--lsp-mode-expand-snippet)
   ;; HACK `lsp-mode' enables snippet based on (fboundp 'yas-minor-mode)
@@ -91,6 +121,7 @@
 
 ;;;###autoload
 (defun lsp-snippet-tempel-lspce-init ()
+  "Use `tempel' as `lspce's snippet engine."
   (lsp-snippet-tempel--init)
   (advice-add 'lspce--snippet-expansion-fn :override #'lsp-snippet-tempel--lspce-expand-snippet)
   ;; HACK `lspce' enables snippet based on `(feature 'yasnippet)'
@@ -98,7 +129,9 @@
 
 ;;;###autoload
 (defun lsp-snippet-tempel-eglot-init ()
+  "Use `tempel' as `eglot's snippet engine."
   (lsp-snippet-tempel--init)
   (advice-add 'eglot--snippet-expansion-fn :override #'lsp-snippet-tempel--eglot-expand-snippet))
 
 (provide 'lsp-snippet-tempel)
+;;; lsp-snippet-tempel.el ends here

@@ -1,11 +1,39 @@
-;;; lsp-snippet.el --- parse lsp-snippets -*- lexical-binding: t -*-
+;;; lsp-snippet.el --- Parse LSP snippets -*- lexical-binding: t -*-
+
+;; Copyright (C) 2024  Free Software Foundation, Inc.
+
+;; Author: Daniel Pettersson
+;; Maintainer: Daniel Pettersson <daniel@dpettersson.net>
+;; Created: 2023
+;; License: GPL-3.0-or-later
+;; Version: 0.0.1
+;; Homepage: https://github.com/svaante/lsp-snippet
+;; Package-Requires: ((emacs "28.1"))
+
+;; This file is not part of GNU Emacs.
+
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 ;;; Commentary:
 
-;;; Parsing of lsp-snippets
-;;; See https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#snippet_syntax
-;;; Notably transformations is not supported
-;;; This is partly due to laziness and nothing meaningful can be derived
-;;; from the parsed results without ~node~.
+;; Parsing of LSP snippets
+
+;; Notably transformations is not supported
+;; This is partly due to laziness and nothing meaningful can be
+;; derived from the parsed results without node.
+
+;; See https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#snippet_syntax
 
 ;;; Code:
 (require 'generator)
@@ -76,23 +104,23 @@
 (defvar lsp-snippet--curr nil)
 
 (defvar lsp-snippet--concat-fn
-      (lambda (elements)
-        (mapcan 'identity elements)))
+  (lambda (elements)
+    (mapcan 'identity elements)))
 (defvar lsp-snippet--text-fn
-      (lambda (text)
-        `((text ,text))))
+  (lambda (text)
+    `((text ,text))))
 (defvar lsp-snippet--tabstop-fn
-      (lambda (number)
-        `((tabstop ,number))))
+  (lambda (number)
+    `((tabstop ,number))))
 (defvar lsp-snippet--placeholder-fn
-      (lambda (number placeholder)
-        `((placeholder ,number ,placeholder))))
+  (lambda (number placeholder)
+    `((placeholder ,number ,placeholder))))
 (defvar lsp-snippet--choice-fn
-      (lambda (number choice)
-        `((choice ,number ,choice))))
+  (lambda (number choice)
+    `((choice ,number ,choice))))
 (defvar lsp-snippet--variable-fn
-      (lambda (resolved fallback)
-        `((variable ,resolved ,fallback))))
+  (lambda (resolved fallback)
+    `((variable ,resolved ,fallback))))
 
 (defun lsp-snippet--parse (str scanner)
   (let* ((tokens (list))
@@ -290,7 +318,7 @@
 
 ;;;###autoload
 (defun lsp-snippet-parse (str)
-  ;; TODO Docs
+  "Parse LSP snippet from STR."
   ;; Bind transform functions
   (let* ((scanner (lsp-snippet-scanner--scan str))
          (elements (lsp-snippet--parse str scanner)))
@@ -298,3 +326,4 @@
              elements)))
 
 (provide 'lsp-snippet)
+;;; lsp-snippet.el ends here
