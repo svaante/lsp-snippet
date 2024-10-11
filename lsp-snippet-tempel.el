@@ -59,7 +59,7 @@
       (tempel--insert template (cons start end)))))
 
 (defun lsp-snippet-tempel--lspce-expand-snippet ()
-  (lambda (snippet &optional expand-env)
+  (lambda (snippet &optional _expand-env)
     (let* ((inhibit-field-text-motion t)
            (template (lsp-snippet-parse snippet)))
       (when template
