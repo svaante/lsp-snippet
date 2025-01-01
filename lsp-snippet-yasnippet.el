@@ -2,7 +2,7 @@
 ;;; Commentary:
 
 ;;; Shoving in yasnippet snippet support into `lsp-mode' in the worst way possible
-;;; Call `lsp-snippet-yasnippet-lsp-mode-init' to enable support globaly
+;;; Call `lsp-snippet-yasnippet-lsp-mode-init' to enable support globally
 
 ;;; Code:
 (require 'yasnippet)
