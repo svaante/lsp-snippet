@@ -7,7 +7,7 @@
 ;; License: GPL-3.0-or-later
 ;; Version: 0.0.1
 ;; Homepage: https://github.com/svaante/lsp-snippet
-;; Package-Requires: ((emacs "28.1") (lsp-snippet "0.0.1"))
+;; Package-Requires: ((emacs "28.1"))
 
 ;; This file is not part of GNU Emacs.
 
