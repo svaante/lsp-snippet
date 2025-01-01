@@ -238,3 +238,8 @@
     (should
      (equal (lsp-snippet-parse "${TM_FILENAME/(.*)\..+$/$1/}")
             '((variable nil "file.el"))))))
+
+(ert-deftest parser-recursive-test ()
+  (should
+   (equal (lsp-snippet-parse "${1:${2:${3}}}")
+          '((variable "1" (variable "2" (variable "3")))))))
